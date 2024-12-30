@@ -23,11 +23,11 @@ public class WebConfig implements WebMvcConfigurer {
     @Bean
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
-//        config.addAllowedOrigin("http://localhost:5173"); // Your frontend URL
+        config.addAllowedOrigin("http://localhost:5173");
         config.addAllowedOrigin("https://minflash.onrender.com");
-        config.addAllowedMethod("*"); // Allow all HTTP methods
-        config.addAllowedHeader("*"); // Allow all headers
-        config.setAllowCredentials(true); // Allow cookies
+        config.addAllowedMethod("*");
+        config.addAllowedHeader("*");
+        config.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
