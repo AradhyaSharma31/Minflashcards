@@ -13,7 +13,6 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/flashcard/edit")
-@CrossOrigin(origins = "http://localhost:5173")
 public class DeckController {
 
     @Autowired

@@ -301,6 +301,16 @@ public class AzureBlobServiceImpl implements AzureBlobService {
         log.info("Blob is deleted successfully");
     }
 
+    @Override
+    public String getUserIdFromDeckId(String deckId) {
+        UUID userId = deckRepo.findById(UUID.fromString(deckId))
+                .filter(d -> d.getUser() != null)
+                .map(d -> d.getUser().getId())
+                .orElseThrow(() -> new RuntimeException("User Id not found"));
+
+        return userId.toString();
+    }
+
     private String getPath(Storage storage) {
         if (StringUtils.isBlank(storage.getUserId()) ||
                 StringUtils.isBlank(storage.getDeckId()) ||

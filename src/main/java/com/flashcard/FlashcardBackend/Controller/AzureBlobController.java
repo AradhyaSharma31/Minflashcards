@@ -93,14 +93,16 @@ public class AzureBlobController {
         }
     }
 
+
+
     // Get Image URL
     @GetMapping("/get-url")
     public ResponseEntity<?> getImageUrl(
-            @RequestParam("userId") String userId,
             @RequestParam("deckId") String deckId,
             @RequestParam("cardId") String cardId,
             @RequestParam("file") String file) {
         try {
+            String userId = azureBlobService.getUserIdFromDeckId(deckId);
             Storage storage = new Storage(userId, deckId, cardId, file, null);
             String imageUrl = azureBlobService.getImageUrl(storage);
             Map<String, String> url = new HashMap<>();

@@ -28,4 +28,6 @@ public interface AzureBlobService {
     public void deleteImage(Storage storage);
 
     public void deleteProfileImage(Storage storage);
+
+    public String getUserIdFromDeckId(String deckId);
 }
