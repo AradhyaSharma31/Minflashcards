@@ -156,12 +156,11 @@ public class Card {
         // OLD IMPLEMENTATION: Update due status
 //        this.isDue = this.nextReview.isBefore(now);
 
-        this.isDue = ChronoUnit.SECONDS.between(LocalDateTime.now(), this.nextReview) <= 0;
+        this.isDue = ChronoUnit.SECONDS.between(ZonedDateTime.now(ZoneId.of("Asia/Kolkata")), this.nextReview) <= 0;
 
         if (status == CardStatus.REVIEWING && interval >= 21 && easeFactor >= 2.5 && consecutiveCorrectAnswers >= 5) {
             status = CardStatus.MATURE; // Mark as mature after 21 days
         }
     }
-
 }
 
