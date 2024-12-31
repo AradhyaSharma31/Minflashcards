@@ -9,6 +9,8 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.UUID;
@@ -39,7 +41,7 @@ public class Card {
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    private ZonedDateTime createdAt = ZonedDateTime.now(ZoneId.of("Asia/Kolkata"));
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "deck_id", referencedColumnName = "id", nullable = false)
@@ -52,24 +54,22 @@ public class Card {
     private int reviewCount = 0;
     private int lapses = 0;
 
-    private LocalDateTime nextReview;
+    private ZonedDateTime nextReview = ZonedDateTime.now(ZoneId.of("Asia/Kolkata"));
     private byte quality;
 
     @Enumerated(EnumType.STRING)
     private CardStatus status = CardStatus.NEW;
 
     private boolean isDue;
-
-    // Additional fields for algorithm alignment
-    private int consecutiveCorrectAnswers = 0; // Track consecutive correct answers
-    private LocalDateTime lastTimeEasy = null;
+    private int consecutiveCorrectAnswers = 0;
+    private ZonedDateTime lastTimeEasy = ZonedDateTime.now(ZoneId.of("Asia/Kolkata"));
     private String performance;
 
     public void updateCard(String performance) {
         reviewCount++; // Increment total review count for the card
-        LocalDateTime now = LocalDateTime.now(); // Get the current time
+        ZonedDateTime now = ZonedDateTime.now(ZoneId.of("Asia/Kolkata")); // Get the current time
 
-        LocalDateTime previousNextReview = this.nextReview; // Store the previous nextReview
+        ZonedDateTime previousNextReview = this.nextReview; // Store the previous nextReview
 
 //        easeFactor += (0.1f - (5 - quality) * (0.08f + (5 - quality) * 0.02f));
 //        easeFactor = Math.max(1.3f, easeFactor); // Ensure easeFactor doesn't go below 1.3
@@ -91,11 +91,9 @@ public class Card {
 
             case "HARD":
                 if (status == CardStatus.LEARNING) {
-                    // Increase interval for HARD performance slightly
                     interval = (int) Math.ceil(interval * 1.3); // Increase by 30%
                     nextReview = now.plusMinutes(interval); // Update next review time
                 } else if (status == CardStatus.REVIEWING) {
-                    // For reviewing, reduce interval slightly
                     easeFactor = Math.max(1.3f, easeFactor - 0.15f); // Reduce ease factor slightly
                     interval = (int) Math.ceil(interval * (lapses > 2 ? 0.6 : 0.7)); // Decrease interval dynamically based of lapses
                     nextReview = now.plusDays(interval); // Update next review time
@@ -123,7 +121,6 @@ public class Card {
                         nextReview = now.plusDays(interval);
                     }
                 } else {
-                    // If already in REVIEWING status, multiply interval by ease factor
                     interval = (int) Math.ceil(interval * easeFactor);
                     nextReview = now.plusDays(interval);
                 }
@@ -134,12 +131,10 @@ public class Card {
                 easeFactor *= 1.15f; // Increase ease by 15%
 
                 if (status == CardStatus.NEW || status == CardStatus.LEARNING) {
-                    // For EASY response while learning, move to reviewing with a larger interval
                     interval = 5; // For example, 5 days after easy in learning
                     nextReview = now.plusDays(interval);
                     status = CardStatus.REVIEWING; // Transition to review phase
                 } else {
-                    // For a review card, increase the ease factor and apply easy bonus
                     interval = (int) Math.ceil(interval * 1.5); // Increase interval by 50%
                     nextReview = now.plusDays(interval);
                 }
@@ -149,24 +144,20 @@ public class Card {
                 throw new IllegalArgumentException("Unknown performance type: " + performance);
         }
 
-        // Prevent `nextReview` from going into the distant future due to overflow
         if (interval > 36500) {
-            interval = 36500; // Cap interval at 100 years (or adjust this value)
+            interval = 36500; // Cap interval at 100 years
             nextReview = now.plusDays(interval);
         }
 
-        // Ensure nextReview doesn't go to the past
         if (nextReview.isBefore(now)) {
-            nextReview = now.plusMinutes(1); // Set minimum next review to 1 minute ahead
+            nextReview = now.plusMinutes(1); // minimum next review 1 minute ahead
         }
 
         // OLD IMPLEMENTATION: Update due status
 //        this.isDue = this.nextReview.isBefore(now);
 
-        // switching to ChronoUnit for more precise calculations
         this.isDue = ChronoUnit.SECONDS.between(LocalDateTime.now(), this.nextReview) <= 0;
 
-        // Check for maturity after 21 days in REVIEWING status if user finds the card easy and gives correct answer multiple times in row
         if (status == CardStatus.REVIEWING && interval >= 21 && easeFactor >= 2.5 && consecutiveCorrectAnswers >= 5) {
             status = CardStatus.MATURE; // Mark as mature after 21 days
         }

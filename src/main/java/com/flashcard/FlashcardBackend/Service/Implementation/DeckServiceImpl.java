@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -262,7 +263,7 @@ public class DeckServiceImpl implements DeckService {
             card.setRepetitionCount(0);
             card.setReviewCount(0);
             card.setLapses(0);
-            card.setNextReview(LocalDateTime.now());
+            card.setNextReview(ZonedDateTime.now());
             card.setStatus(CardStatus.NEW);
             card.setDue(false);
             card.setConsecutiveCorrectAnswers(0);

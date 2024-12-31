@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -27,7 +28,7 @@ public class CardDTO {
 
         private String image;
 
-        private LocalDateTime createdAt;
+        private ZonedDateTime createdAt;
 
         // New spaced repetition fields
         private float easeFactor;
@@ -35,13 +36,13 @@ public class CardDTO {
         private int repetitionCount;
         private int reviewCount;
         private int lapses;
-        private LocalDateTime nextReview;
+        private ZonedDateTime nextReview;
         private CardStatus status;
         private boolean isDue;
 
         // Additional fields
         private int consecutiveCorrectAnswers;
-        private LocalDateTime lastTimeEasy;
+        private ZonedDateTime lastTimeEasy;
         private String performance;
         private byte quality;
 }

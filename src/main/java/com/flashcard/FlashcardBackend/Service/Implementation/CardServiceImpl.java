@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -67,7 +68,7 @@ public class CardServiceImpl implements CardService {
         card.setRepetitionCount(0);
         card.setReviewCount(0);
         card.setLapses(0);
-        card.setNextReview(LocalDateTime.now());
+        card.setNextReview(ZonedDateTime.now());
         card.setStatus(CardStatus.NEW);
         card.setDue(false);
 
@@ -93,13 +94,13 @@ public class CardServiceImpl implements CardService {
         card.setImage(image);
 
         // Set default fields for the new card
-        card.setCreatedAt(LocalDateTime.now());
+        card.setCreatedAt(ZonedDateTime.now());
         card.setEaseFactor(2.5f);
         card.setInterval(0);
         card.setRepetitionCount(0);
         card.setReviewCount(0);
         card.setLapses(0);
-        card.setNextReview(LocalDateTime.now());
+        card.setNextReview(ZonedDateTime.now());
         card.setStatus(CardStatus.NEW);
         card.setDue(false);
 

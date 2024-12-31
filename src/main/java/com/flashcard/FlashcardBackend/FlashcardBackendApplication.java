@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
+import java.util.TimeZone;
 import java.util.UUID;
 
 @SpringBootApplication
@@ -24,6 +25,7 @@ public class FlashcardBackendApplication implements CommandLineRunner {
 	private RoleRepo roleRepo;
 
 	public static void main(String[] args) {
+		TimeZone.setDefault(TimeZone.getTimeZone("Asia/Kolkata"));
 		SpringApplication.run(FlashcardBackendApplication.class, args);
 	}
 
