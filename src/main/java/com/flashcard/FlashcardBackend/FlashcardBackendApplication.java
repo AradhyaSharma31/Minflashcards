@@ -25,7 +25,6 @@ public class FlashcardBackendApplication implements CommandLineRunner {
 	private RoleRepo roleRepo;
 
 	public static void main(String[] args) {
-		TimeZone.setDefault(TimeZone.getTimeZone("Asia/Kolkata"));
 		SpringApplication.run(FlashcardBackendApplication.class, args);
 	}
 
