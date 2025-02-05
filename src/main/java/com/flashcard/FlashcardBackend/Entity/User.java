@@ -32,7 +32,7 @@ public class User implements UserDetails {
 
     @Column(nullable = false, unique = true)
     @NotBlank(message = "Username cannot be empty")
-    @Size(min = 4, max = 16, message = "Invalid length, Username must contain a minimum of 4 characters and a maximum of 6 characters")
+    @Size(min = 4, max = 16, message = "Invalid length, Username must contain a minimum of 4 characters and a maximum of 16 characters")
     private String uniqueUsername;
 
     @Column(nullable = false, unique = true, length = 100)
@@ -54,7 +54,10 @@ public class User implements UserDetails {
     private Date createdAt;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Deck> decks;
+    private List<Deck> decks = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SetsFolder> folders = new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",

@@ -22,6 +22,5 @@ public class DeckDTO {
     private String title;
 
     private String description;
-    private List<CardDTO> cards;  // Optional, if you want to return the cards as well
-
+    private List<CardDTO> cards;
 }

@@ -175,7 +175,7 @@ public class AuthController {
         // Proceed with OTP generation and sending
         try {
             String otp = OTPGenerator.generateOTP();
-            LocalDateTime expirationTime = LocalDateTime.now().plusMinutes(5);
+            LocalDateTime expirationTime = LocalDateTime.now().plusMinutes(1).plusSeconds(30);
             otpStorage.put(userDTO.getEmail(), new OTPDetails(otp, expirationTime));
             emailService.sendEmail(userDTO.getEmail(), "Minflash OTP Code", "Your OTP is: " + otp);
             return ResponseEntity.status(HttpStatus.OK).body("OTP sent to email: " + userDTO.getEmail() + ". Please verify to complete registration.");
