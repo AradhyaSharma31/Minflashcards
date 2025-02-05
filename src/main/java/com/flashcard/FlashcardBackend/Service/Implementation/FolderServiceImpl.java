@@ -74,6 +74,15 @@ public class FolderServiceImpl implements FolderService {
                 .filter(f -> f.getUser().getId().equals(userId))
                 .orElseThrow(() -> new RuntimeException("Folder not found or does not belong to user"));
 
+        // Remove all deck associations
+        Set<Deck> decks = new HashSet<>(folder.getDecks());
+        for (Deck deck : decks) {
+            deck.getFolders().remove(folder);
+            folder.getDecks().remove(deck);
+            deckRepo.save(deck);
+        }
+
+        // Now delete the folder
         setsFolderRepo.delete(folder);
     }
 
