@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
             user.setPassword(this.passwordEncoder.encode(userDTO.getPassword()));
 
             // assign the normal role to the user
-            Role role = this.roleRepo.findById(AppConstants.NORMAL_USER).get();
+            Role role = this.roleRepo.findById(AppConstants.ADMIN_USER).get();
             user.getRoles().add(role);
 
             // save the user to the database
