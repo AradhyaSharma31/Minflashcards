@@ -73,7 +73,14 @@ public class UserServiceImpl implements UserService {
         } catch(DataIntegrityViolationException e) {
             throw new RuntimeException("Invalid Credentials. Please try again with different credentials");
         }
+    }
 
+    public boolean isAdmin(UUID userId) {
+        User user = userRepo.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User Not Found"));
+
+        return user.getRoles().stream()
+                .anyMatch(role -> role.getId().equals(AppConstants.ADMIN_USER));
     }
 
     @Override
@@ -170,7 +177,8 @@ public class UserServiceImpl implements UserService {
                                         deck.getId(),
                                         deck.getTitle(),
                                         deck.getDescription(),
-                                        cardDTOs // Pass the mapped cards here
+                                        deck.getCategoryName(),
+                                        cardDTOs
                                 );
                             })
                             .collect(Collectors.toList());
@@ -230,7 +238,8 @@ public class UserServiceImpl implements UserService {
                             deck.getId(),
                             deck.getTitle(),
                             deck.getDescription(),
-                            cardDTOs // Pass the mapped cards here
+                            deck.getCategoryName(),
+                            cardDTOs
                     );
                 })
                 .collect(Collectors.toList());

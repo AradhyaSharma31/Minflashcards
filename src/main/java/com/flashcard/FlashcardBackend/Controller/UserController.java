@@ -1,13 +1,10 @@
 package com.flashcard.FlashcardBackend.Controller;
 
-import com.flashcard.FlashcardBackend.DTO.DeckDTO;
 import com.flashcard.FlashcardBackend.DTO.PasswordRequest;
 import com.flashcard.FlashcardBackend.DTO.UserDTO;
-import com.flashcard.FlashcardBackend.Entity.User;
 import com.flashcard.FlashcardBackend.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 

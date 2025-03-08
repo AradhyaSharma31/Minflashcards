@@ -40,16 +40,16 @@ public class DeckServiceImpl implements DeckService {
 
 
     @Override
-    public DeckDTO createDeck(UUID userId, String title, String description) {
+    public DeckDTO createDeck(UUID userId, String title, String description, String categoryName) {
         // Fetch the user using their ID
         User user = userRepo.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // Create a new Deck entity and associate it with the user
         Deck deck = new Deck();
         deck.setTitle(title);
         deck.setDescription(description);
-        deck.setUser(user);  // Set the deck's owner
+        deck.setCategoryName(categoryName);
+        deck.setUser(user);
 
         Deck savedDeck = deckRepo.save(deck);
 
@@ -88,6 +88,9 @@ public class DeckServiceImpl implements DeckService {
         if (deckDTO.getDescription() != null) {
             deck.setDescription(deckDTO.getDescription());
         }
+        if (deckDTO.getCategoryName() != null) {
+            deck.setCategoryName(deckDTO.getCategoryName());
+        }
 
         Deck savedDeck = deckRepo.save(deck);
 
@@ -101,7 +104,6 @@ public class DeckServiceImpl implements DeckService {
         return decks.stream()
                 .map(deck -> {
                   List<CardDTO> cardDTOs = deck.getCards().stream()
-                   // List<CardDTO> cardDTOs = deck.getCards() != null ? deck.getCards().stream()
                           .map(card -> new CardDTO(
                                   card.getId(),
                                   card.getTerm(),
@@ -124,7 +126,7 @@ public class DeckServiceImpl implements DeckService {
                             .toList();
 
 
-                    return new DeckDTO(deck.getId(), deck.getTitle(), deck.getDescription(), cardDTOs);
+                    return new DeckDTO(deck.getId(), deck.getTitle(), deck.getDescription(), deck.getCategoryName(), cardDTOs);
                 })
                 .collect(Collectors.toList());
     }
@@ -164,7 +166,7 @@ public class DeckServiceImpl implements DeckService {
                 .collect(Collectors.toList());
 
         // Return the mapped DeckDTO
-        return new DeckDTO(deck.getId(), deck.getTitle(), deck.getDescription(), cardDTOs);
+        return new DeckDTO(deck.getId(), deck.getTitle(), deck.getDescription(), deck.getCategoryName(), cardDTOs);
     }
 
     @Override
@@ -198,7 +200,7 @@ public class DeckServiceImpl implements DeckService {
                 .collect(Collectors.toList());
 
         // Return the mapped DeckDTO
-        return new DeckDTO(deck.getId(), deck.getTitle(), deck.getDescription(), cardDTOs);
+        return new DeckDTO(deck.getId(), deck.getTitle(), deck.getDescription(), deck.getCategoryName(), cardDTOs);
     }
 
     @Override
@@ -213,9 +215,8 @@ public class DeckServiceImpl implements DeckService {
                 throw new IllegalArgumentException("User does not own this deck");
             }
 
-            // Get the next card from the deck's priority queue
-            Card nextCard = deck.getNextCard(); // Assuming this returns a Card
-            return Optional.ofNullable(modelMapper.map(nextCard, CardDTO.class)); // Using ModelMapper
+            Card nextCard = deck.getNextCard();
+            return Optional.ofNullable(modelMapper.map(nextCard, CardDTO.class));
         }
 
         return Optional.empty();
@@ -229,7 +230,6 @@ public class DeckServiceImpl implements DeckService {
             Card card = cardOpt.get();
             Deck deck = card.getDeck();
 
-            // Ensure the card belongs to the deck and the deck belongs to the user
             return deck.getId().equals(deckId) && deck.getUser().getId().equals(userId);
         }
 

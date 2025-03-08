@@ -2,6 +2,7 @@ package com.flashcard.FlashcardBackend.Controller;
 
 import com.flashcard.FlashcardBackend.DTO.DeckDTO;
 import com.flashcard.FlashcardBackend.Service.DeckService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @RestController
 @RequestMapping("/flashcard/edit")
 public class DeckController {
@@ -26,10 +28,11 @@ public class DeckController {
     @PostMapping("/createDeck/{userId}")
     public ResponseEntity<DeckDTO> createDeck(@PathVariable UUID userId, @Valid @RequestBody DeckDTO deckDTO) {
         try {
-            DeckDTO createdDeck = deckService.createDeck(userId, deckDTO.getTitle(), deckDTO.getDescription());
+            log.info(userId + " " + deckDTO.getTitle() + " " + deckDTO.getDescription());
+            DeckDTO createdDeck = deckService.createDeck(userId, deckDTO.getTitle(), deckDTO.getDescription(), deckDTO.getCategoryName());
             return ResponseEntity.status(201).body(createdDeck);
         } catch (Exception e) {
-            System.out.println(e);
+            log.error(e.toString());
             return ResponseEntity.status(400).body(null);
         }
     }

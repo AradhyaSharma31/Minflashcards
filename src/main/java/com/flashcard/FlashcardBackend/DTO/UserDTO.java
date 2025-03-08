@@ -45,7 +45,7 @@ public class UserDTO {
         return "UserDTO{" +
                 "uniqueUsername='" + uniqueUsername + '\'' +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' + // Be careful with printing passwords in logs
+                ", password='" + password + '\'' +
                 '}';
     }
 

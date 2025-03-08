@@ -29,6 +29,8 @@ public class Deck {
 
     private String description;
 
+    private String categoryName;
+
     @OneToMany(mappedBy = "deck", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Card> cards = new ArrayList<>();
 
@@ -43,6 +45,10 @@ public class Deck {
             inverseJoinColumns = @JoinColumn(name = "folder_id")
     )
     private Set<SetsFolder> folders = new HashSet<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = true)
+    private Category category;
 
     // Method to retrieve the next card using a priority queue
     public Card getNextCard() {

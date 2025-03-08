@@ -57,6 +57,12 @@ public class User implements UserDetails {
     private List<Deck> decks = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Category> categories = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CategoryRequests> categoryRequests = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SetsFolder> folders = new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

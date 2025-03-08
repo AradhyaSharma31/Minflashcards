@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface DeckService {
 
-    public DeckDTO createDeck(UUID userID, String title, String description);
+    public DeckDTO createDeck(UUID userID, String title, String description, String categoryName);
     void deleteDeck(UUID deckId, UUID userId);
     DeckDTO updateDeck(UUID deckId, UUID userId, DeckDTO deckDTO);
     public List<DeckDTO> readAllDecks();
