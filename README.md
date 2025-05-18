@@ -2,6 +2,18 @@
 
 This is the **backend** of a flashcard learning application built with **Spring Boot** and **MySQL**. It handles user authentication, manages flashcard and set data, and implements a **Spaced Repetition System (SRS)** for users.
 
+🌐 **Live Website**: [https://minflash.onrender.com](https://minflash.onrender.com)
+
+---
+
+## 🚀 Demo
+
+[![Watch Demo](https://img.youtube.com/vi/ciEgPSnuLCA/maxresdefault.jpg)](https://www.youtube.com/watch?v=ciEgPSnuLCA)
+
+> 📺 Click the image to watch a quick demo of the app on YouTube.
+
+---
+
 ## Features
 
 - **User Authentication**: JWT-based authentication and OTP email verification.
@@ -13,11 +25,14 @@ This is the **backend** of a flashcard learning application built with **Spring 
 - **Profile Customization**: Manage user profile data including profile image upload.
 - **API Documentation**: API routes for interacting with the frontend.
 
+---
+
 ## Installation
 
-1. Clone the repository:
+1. **Clone the repository**:
    ```bash
    git clone https://github.com/AradhyaSharma31/Minflash-Backend.git
+
    
 2. Set up your port, MySQL database and configure the application properties (src/main/resources/application.properties) with your database credentials.
   
