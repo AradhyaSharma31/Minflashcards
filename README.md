@@ -10,7 +10,7 @@ This is the **backend** of a flashcard learning application built with **Spring 
 
 [![Watch Demo](https://img.youtube.com/vi/ciEgPSnuLCA/maxresdefault.jpg)](https://www.youtube.com/watch?v=ciEgPSnuLCA)
 
-> 📺 Click the image to watch a quick demo.
+> 📺 Click the image to watch a quick demo
 
 ---
 
